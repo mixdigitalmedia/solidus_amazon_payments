@@ -1,5 +1,5 @@
 ##
-# Amazon Payments - Login and Pay for Spree Commerce
+# Amazon Payments - Login and Pay for Solidus
 #
 # @category    Amazon
 # @package     Amazon_Payments
@@ -10,20 +10,20 @@
 # encoding: UTF-8
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
-  s.name        = 'spree_amazon_payments'
+  s.name        = 'solidus_amazon_payments'
   s.version     = '3.0.0'
-  s.summary     = 'Spree Amazon Payments'
+  s.summary     = 'Solidus Amazon Payments'
   s.description = ''
 
   s.required_ruby_version     = '>= 2.1.0'
   s.required_rubygems_version = '>= 1.8.23'
 
-  s.author    = 'Amazon Payments'
+  s.author    = 'Boomer Digital'
 
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 3.0.0'
+  s.add_dependency 'solidus_core', '~> 3.0.0'
 
   s.add_development_dependency 'capybara', '~> 2.4'
   s.add_development_dependency 'coffee-rails'
