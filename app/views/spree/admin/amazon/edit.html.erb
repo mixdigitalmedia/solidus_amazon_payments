@@ -1,0 +1,50 @@
+<%# %>
+<%# Amazon Payments - Login and Pay for Spree Commerce %>
+<%# %>
+<%# @category    Amazon %>
+<%# @package     Amazon_Payments %>
+<%# @copyright   Copyright (c) 2014 Amazon.com %>
+<%# @license     http://opensource.org/licenses/Apache-2.0  Apache License, Version 2.0 %>
+<%# %>
+
+<% content_for :page_title do %>
+  <%= Spree.t(:amazon_settings) %>
+<% end %>
+
+<p><a href="https://sellercentral.amazon.com/hz/me/sp/signup?solutionProviderOptions=lwa%3Bmws-acc%3B&marketplaceId=AGWSWK15IEJJ7&solutionProviderToken=AAAAAQAAAAEAAAAQw%2B2XzpFj2GWN0gTo0twkdAAAAHAcjkEL%2FdK5mKZbaJyrLpiWRmzHCLnC5eLDc8TlCy4aHUaagtgrQcxbsBRi5Y3xsRv1jXEP2QFuCAniHYcBxE%2FpbFnuBaEBPHBANejgd8xYL4fBX8Fz3I9%2Fl5bmIYBWyvSCEP8MPJQ6KKCNwPGcV%2FDN&solutionProviderId=A31NP5KFHXSFV1">Login to get your keys</a>.</p>
+<%= form_tag admin_amazon_path, :method => :put do %>
+  <div id="preferences" data-hook>
+    <fieldset class="general no-border-top">
+      <div class="form-group">
+        <%= label_tag "Amazon Client Id" %>
+        <%= text_field_tag :amazon_client_id, Spree::Config[:amazon_client_id], class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag "Amazon Merchant Id" %>
+        <%= text_field_tag :amazon_merchant_id, Spree::Config[:amazon_merchant_id], class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag "Amazon MWS Access Key" %>
+        <%= text_field_tag :amazon_aws_access_key_id, Spree::Config[:amazon_aws_access_key_id], class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag "Amazon MWS Secret Key" %>
+        <%= text_field_tag :amazon_aws_secret_access_key, Spree::Config[:amazon_aws_secret_access_key], class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag "Amazon Callback Url" %>
+        <%= text_field_tag :amazon_callback_url, @amazon_callback_url, class: 'form-control', disabled: true %>
+      </div>
+
+      <div class="form-actions" data-hook="buttons">
+        <%= button Spree.t('actions.update'), 'save' %>
+        <span class="or"><%= Spree.t(:or) %></span>
+        <%= button_link_to Spree.t('actions.cancel'), edit_admin_general_settings_url, icon: 'delete' %>
+      </div>
+    </fieldset>
+  </div>
+<% end %>

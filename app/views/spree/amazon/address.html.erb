@@ -1,0 +1,73 @@
+<%# %>
+<%# Amazon Payments - Login and Pay for Spree Commerce %>
+<%# %>
+<%# @category    Amazon %>
+<%# @package     Amazon_Payments %>
+<%# @copyright   Copyright (c) 2014 Amazon.com %>
+<%# @license     http://opensource.org/licenses/Apache-2.0  Apache License, Version 2.0 %>
+<%# %>
+<% content_for :head do %>
+  <meta name="viewport" content="width-device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+  <script type='text/javascript'>
+    window.onAmazonLoginReady = function() {
+      amazon.Login.setClientId('<%= Spree::Config[:amazon_client_id] %>');
+      $('#continue_to_delivery').click();
+    };
+  </script>
+  <script type='text/javascript'
+    src='https://static-na.payments-amazon.com/OffAmazonPayments/us/<%= Spree::Gateway::Amazon.first.preferred_test_mode ? 'sandbox/' : '' %>js/Widgets.js?sellerId=<%= Spree::Config[:amazon_merchant_id] %>'>
+  </script>
+
+  <script>
+    $( document ).ready(function() {
+      new OffAmazonPayments.Widgets.AddressBook({
+        sellerId: '<%= Spree::Config[:amazon_merchant_id] %>',
+        agreementType: 'orderreference',
+        onOrderReferenceCreate: function(orderReference) {
+          order_reference = orderReference.getAmazonOrderReferenceId();
+        },
+        onAddressSelect: function(orderReference) {
+          <%= render 'spree/amazon/payment' %>
+        },
+        design: {
+          designMode: 'responsive'
+        },
+        onError: function(error) {
+         console.log(error.getErrorMessage());
+        }
+      }).bind("addressBookWidgetDiv");
+      $('#continue_to_delivery').click();
+      $('#continue_to_delivery').click(function () {
+        $("#deliveryOptionDiv").html('Loading...');
+      });
+      $('#continue_to_delivery').on('ajax:success', function(evt, data, status, xhr){
+        $("#deliveryOptionDiv").html(data);
+      }).bind("ajax:error", function(evt, data, status, xhr){
+        $("div#errors p").text(data);
+      });
+    });
+  </script>
+<% end %>
+
+<div class="row">
+
+  <div class="col-md-6 col-xs-12">
+    <div id="addressBookWidgetDiv">
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xs-12">
+    <div id="walletWidgetDiv">
+    </div>
+  </div>
+
+  <div class="well text-right form-buttons" data-hook="buttons"  id="submit_form" style="display: none;">
+    <%= link_to Spree.t(:save_and_continue), "/amazon_order/delivery", :class => 'btn btn-lg btn-success', :id => 'continue_to_delivery', :remote => true %>
+  </div>
+
+  <div id="deliveryOptionDiv" class="col-md-12">
+    Loading...
+  </div>
+
+</div>

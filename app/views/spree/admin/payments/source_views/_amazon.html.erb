@@ -1,0 +1,31 @@
+<%# %>
+<%# Amazon Payments - Login and Pay for Spree Commerce %>
+<%# %>
+<%# @category    Amazon %>
+<%# @package     Amazon_Payments %>
+<%# @copyright   Copyright (c) 2014 Amazon.com %>
+<%# @license     http://opensource.org/licenses/Apache-2.0  Apache License, Version 2.0 %>
+<%# %>
+<fieldset data-hook="amazon">
+  <legend align="center"><%= Spree.t(:transaction, :scope => :amazon) %></legend>
+
+  <div class="row">
+    <div class="alpha six columns">
+      <dl>
+        <dt><%= Spree.t(:payer_id, :scope => :amazon) %>:</dt>
+        <dd><%= payment.number %></dd>
+      </dl>
+    </div>
+
+    <% if payment.state != 'void' %>
+      <%= button_link_to Spree.t('actions.refund', :scope => :amazon), "#", :icon => 'icon-dollar' %>
+    <% else %>
+      <div class="alpha six columns">
+        <dl>
+          <dt><%= Spree.t(:state, :scope => :amazon) %>:</dt>
+          <dd><%= payment.state.titleize %></dd>
+        </dl>
+      </div>
+    <% end %>
+  </div>
+</fieldset>
