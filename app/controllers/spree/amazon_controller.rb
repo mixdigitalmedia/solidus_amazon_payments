@@ -119,8 +119,12 @@ class Spree::AmazonController < Spree::StoreController
     authorize!(:edit, @order, cookies.signed[:guest_token])
 
     redirect_to root_path if @order.nil?
-    while(@order.next) do
 
+    while(@order.next) do
+    end
+
+    if @order.state == 'confirm'
+      @order.complete
     end
 
     if @order.completed?
