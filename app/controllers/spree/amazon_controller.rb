@@ -99,7 +99,7 @@ class Spree::AmazonController < Spree::StoreController
       @order = current_order
 
       # Remove the following line to enable the confirmation step.
-      redirect_to amazon_order_complete_path(@order)
+      # redirect_to amazon_order_complete_path(@order)
     else
       render :edit
     end
