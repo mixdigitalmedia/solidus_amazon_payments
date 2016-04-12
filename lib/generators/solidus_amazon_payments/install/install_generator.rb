@@ -7,11 +7,21 @@
 # @license     http://opensource.org/licenses/Apache-2.0  Apache License, Version 2.0
 #
 ##
-module SpreeAmazonPayments
+module SolidusAmazonPayments
   module Generators
     class InstallGenerator < Rails::Generators::Base
 
       class_option :auto_run_migrations, :type => :boolean, :default => false
+
+      def create_javascripts
+        create_file 'vendor/assets/javascripts/spree/frontend/all.js' unless File.exists?('vendor/assets/javascripts/spree/frontend/all.js')
+        create_file 'vendor/assets/javascripts/spree/backend/all.js' unless File.exists?('vendor/assets/javascripts/spree/backend/all.js')
+      end
+
+      def create_stylesheets
+        create_file 'vendor/assets/stylesheets/spree/frontend/all.css' unless File.exists?('vendor/assets/stylesheets/spree/frontend/all.css')
+        create_file 'vendor/assets/stylesheets/spree/backend/all.css' unless File.exists?('vendor/assets/stylesheets/spree/backend/all.css')
+      end
 
       def add_javascripts
         append_file 'vendor/assets/javascripts/spree/frontend/all.js', "//= require spree/frontend/spree_amazon_payments\n"
@@ -24,7 +34,7 @@ module SpreeAmazonPayments
       end
 
       def add_migrations
-        run 'bundle exec rake railties:install:migrations FROM=spree_amazon_payments'
+        run 'bundle exec rake railties:install:migrations FROM=solidus_amazon_payments'
       end
 
       def run_migrations

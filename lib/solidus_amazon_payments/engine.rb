@@ -7,11 +7,11 @@
 # @license     http://opensource.org/licenses/Apache-2.0  Apache License, Version 2.0
 #
 ##
-module SpreeAmazonPayments
+module SolidusAmazonPayments
   class Engine < Rails::Engine
-    require 'spree/core'
+    #require 'spree/core'
     isolate_namespace Spree
-    engine_name 'spree_amazon_payments'
+    engine_name 'solidus_amazon_payments'
 
     # use rspec for tests
     config.generators do |g|
