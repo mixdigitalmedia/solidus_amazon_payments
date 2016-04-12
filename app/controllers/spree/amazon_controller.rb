@@ -77,8 +77,9 @@ class Spree::AmazonController < Spree::StoreController
         address = data.destination["PhysicalDestination"]
         first_name = address["Name"].split(" ")[0] rescue "Amazon"
         last_name = address["Name"].split(" ")[1..10].join(" ")
-        spree_address = current_order.ship_address
-        spree_address.update({
+
+        new_shipping_address = current_order.ship_address.dup
+        new_shipping_address.update({
                                 "firstname" => first_name,
                                 "lastname" => last_name,
                                 "address1" => address["AddressLine1"],
@@ -87,7 +88,14 @@ class Spree::AmazonController < Spree::StoreController
                                 "zipcode" => address["PostalCode"],
                                 "state_name" => address["StateOrRegion"],
                                 "country" => Spree::Country.find_by_iso(address["CountryCode"])})
-        spree_address.save!
+
+        if current_order.ship_address != new_shipping_address
+          ActiveRecord::Base.transaction do
+            old_shipping_address = current_order.ship_address
+            current_order.ship_address = new_shipping_address
+            current_order.save!
+          end
+        end
       else
         raise "There is a problem with your order"
       end
